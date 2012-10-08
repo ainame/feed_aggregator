@@ -1,0 +1,5 @@
+h3 Links
+ul.nav.nav-list
+  li.nav-header Filter by
+  - @sites.each do |site|
+    li= link_to site.name, "/feeds?site=#{site.id}"

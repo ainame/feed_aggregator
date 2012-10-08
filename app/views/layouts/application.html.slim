@@ -41,13 +41,7 @@ html lang="jp"
             = yield
           .span3
             .well.sidebar-nav
-              h3 Sidebar
-              ul.nav.nav-list
-                li.nav-header Sidebar
-                li= link_to "Feeds", "/feeds"
-                li= link_to "Sites", "/sites"
-                li= link_to "Tags", "/tag_rules"
-    
+              = render 'sidebar'
       footer
         p &copy; ainame 2012
     /!
