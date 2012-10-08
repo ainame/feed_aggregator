@@ -1,0 +1,6 @@
+- model_class = Feed
+#wordcloud style="height: 200px;"
+#feeds
+  = render 'feeds'
+- unless @feeds.empty?
+  p Last Updated: #{@feeds.first.formatted_posted_at}

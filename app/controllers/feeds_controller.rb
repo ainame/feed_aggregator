@@ -1,10 +1,42 @@
 # -*- coding: utf-8 -*-
 class FeedsController < ApplicationController
+
+  # GET /
+  def top_page
+    @feeds = Feed.latest.page params[:page]
+    @tags  = Feed.tag_counts_on(:tags)
+    @sites = Site.all
+
+    respond_to do |format|
+      format.html { render :top_page, :layout => "feed_index" }# index.html.erb
+      format.js
+      format.json { render json: @feeds }
+    end
+  end
+
   # GET /feeds
   # GET /feeds.json
   def index
-    @feeds = Feed.latest.page params[:page]
-    @tags = Feed.tag_counts_on(:tags)
+    @sites = Site.all
+    if params[:site]
+      @feeds = Feed.latest.where(:site_id => params[:site]).page params[:page]      
+    else
+      @feeds = Feed.latest.page params[:page]
+    end
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.js
+      format.json { render json: @feeds }
+    end
+  end
+
+  # GET /site_feed?site=<site_id>
+  def filter
+    @site  = Site.find(params[:site])
+    @feeds = Feed.latest.where(site_id).page(params[:page])
+    @tags  = Feed.tag_counts_on(:tags)
+    @sites = Site.all
 
     respond_to do |format|
       format.html { render :index, :layout => "feed_index" }# index.html.erb

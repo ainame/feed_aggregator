@@ -1,5 +1,5 @@
 FeedAggregator::Application.routes.draw do
-  root :to => 'feeds#index'
+  root :to => 'feeds#top_page'
   resources :sites
   resources :feeds
   resources :tag_rules

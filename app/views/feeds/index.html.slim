@@ -1,14 +1,9 @@
 - model_class = Feed
-#wordcloud style="height: 200px;"
-br
+div class="page-header"
+  h1=t '.title', :default => model_class.model_name.human.pluralize
+#feeds
+  = render 'feeds'
 - unless @feeds.empty?
   p last_updated: #{@feeds.first.formatted_posted_at}
-= paginate @feeds
-table class="table table-striped"
-  tbody
-    - @feeds.each do |feed|
-      tr
-        td= feed.site.name
-        td= link_to feed.title, feed.url
 
 

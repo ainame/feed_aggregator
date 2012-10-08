@@ -1,0 +1,7 @@
+= paginate @feeds, :remote => true
+table class="table table-striped"
+  tbody
+    - @feeds.each do |feed|
+      tr
+        td= feed.site.name
+        td= link_to feed.title, feed.url

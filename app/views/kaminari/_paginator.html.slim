@@ -6,8 +6,9 @@
     remote       : data-remote
     paginator    : the paginator that renders the pagination tags inside
 
-.pagination
-  == paginator.render do
+
+== paginator.render do
+  .pagination.pagination-right
     ul
       /== first_page_tag
       == prev_page_tag
