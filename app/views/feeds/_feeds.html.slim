@@ -4,4 +4,4 @@ table class="table table-striped"
     - @feeds.each do |feed|
       tr
         td= feed.site.name
-        td= link_to feed.title, feed.url
+        td= link_to feed.title, feed.url, :target => "_blank"
