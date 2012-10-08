@@ -19,6 +19,6 @@
 
 # Learn more: http://github.com/javan/whenever
 
-every 30.minutes do
-  runner "Tasks::UpdateFeedsTask.insert_feed_and_update_tags"
+every 10.minutes do
+  runner "Tasks::UpdateFeedsTask.new.insert_feed_and_update_tags"
 end
