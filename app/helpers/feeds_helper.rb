@@ -1,10 +1,11 @@
 module FeedsHelper
   def tag_cloud(tags, options = {})
     word_list = (tags|| []).map do |tag|
-       {
-         text: tag.name,
-         weight: tag.count
-       }
+      {
+        text: tag.name,
+        weight: tag.count,
+        link: "/tag?category=#{tag.name}"
+      }
     end
     js_src =<<JS
 var word_list = #{word_list.to_json};
