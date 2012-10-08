@@ -1,9 +1,9 @@
 - model_class = Feed
-h4 tag clound
-#wordcloud style="width:550px; height: 100px;"
+#wordcloud style="height: 200px;"
 br
 - unless @feeds.empty?
   p last_updated: #{@feeds.first.formatted_posted_at}
+= paginate @feeds
 table class="table table-striped"
   tbody
     - @feeds.each do |feed|

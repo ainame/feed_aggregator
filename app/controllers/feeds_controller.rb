@@ -3,8 +3,7 @@ class FeedsController < ApplicationController
   # GET /feeds
   # GET /feeds.json
   def index
-    @feeds = Feed.latest.all
-    @tagged_feeds = Feed.latest_tagged.all
+    @feeds = Feed.latest.page params[:page]
     @tags = Feed.tag_counts_on(:tags)
 
     respond_to do |format|
