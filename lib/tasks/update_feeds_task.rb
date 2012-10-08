@@ -33,7 +33,7 @@ class Tasks::UpdateFeedsTask
           :title => NKF.nkf('-w',feed.title) || '',
           :body  => NKF.nkf('-w',feed.content)||  NKF.nkf('-w', raw_feeds.description) || '',
           :url   => feed.url.to_s.empty? ? '' : feed.urls.first,
-          :posted_at => raw_feeds.last_updated.to_s.empty? ? DateTime.now : raw_feeds.last_updated.to_datetime
+          :posted_at => feed.last_updated.to_s.empty? ? (feed.date_published.to_s.empty? ? DateTime.now : feed.date_published) : feed.last_updated.to_datetime
         }
       end
     end.compact
