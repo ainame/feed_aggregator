@@ -4,7 +4,7 @@ class Feed < ActiveRecord::Base
   belongs_to :site
   validates :url, :uniqueness => true
 
-  scope :latest, order(:posted_at)
+  scope :latest, order('posted_at desc')
   scope :latest_tagged, order(:posted_at).tagged_with(TagRule.all_tag_names, :any => true)
 
   def formatted_posted_at
