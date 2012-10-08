@@ -38,6 +38,7 @@ gem 'acts-as-taggable-on', :git => 'git://github.com/mbleigh/acts-as-taggable-on
 gem 'feed-normalizer'
 gem 'whenever', :require => false
 gem 'foreman'
+gem 'kaminari'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
