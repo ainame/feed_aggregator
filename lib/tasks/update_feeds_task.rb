@@ -8,6 +8,9 @@ class Tasks::UpdateFeedsTask
       feeds = fetch_feed(site)
       insert_each_feeds(feeds)
     end
+
+    # buffered_logger needs flush
+    Rails.logger.flush
   end
 
   def update_all_feeds_tags
@@ -19,16 +22,23 @@ class Tasks::UpdateFeedsTask
 
   private
   def fetch_feed(site)
-    raw_feed = FeedNormalizer::FeedNormalizer.parse open(site.feed_url)
-    raw_feed.items.map do |feed|
-      {
-        :site_id => site.id,
-        :title => feed.title || '',
-        :body  => feed.content || raw_feed.description || '',
-        :url   => feed.urls.first || '',
-        :posted_at => raw_feed.last_updated.to_datetime || DateTime.now
-      }
-    end
+    raw_feeds = FeedNormalizer::FeedNormalizer.parse open(site.feed_url)
+    raw_feeds.items.map do |feed|
+      if feed.url.to_s.empty? || feed.title.to_s.empty? 
+        nil
+      else
+        {
+          :site_id => site.id,
+          :title => feed.title || '',
+          :body  => feed.content || raw_feed.description || '',
+          :url   => feed.url.to_s.empty? ? '' : feed.urls.first,
+          :posted_at => raw_feed.last_updated.to_s.empty? ? DateTime.now : raw_feed.last_updated.to_datetime
+        }
+      end
+    end.comapct
+  end
+
+  def make_feed_element(site, raw_feed)
   end
 
   def insert_each_feeds(feeds)
@@ -40,27 +50,25 @@ class Tasks::UpdateFeedsTask
   def insert_feed(feed_data)
     feed = Feed.new(feed_data)
     if feed.save
-      puts "succeeded to insert #{feed.title}."
+      Rails.logger.info "succeeded to insert: #{feed.title}."
       set_tags(feed)
     else
-
+      Rails.logger.info "already inserted feed. not updating tags: #{feed.title}."
     end
   end
 
   def set_tags(feed)
     feed.tag_list = get_matched_tags(feed)
-    puts "suc: #{feed.title} - #{feed.tag_list}" unless feed.tag_list.empty?
+    Rails.logger.info "update tag: #{feed.title} - #{feed.tag_list}"
     feed.save
   end
 
   def get_matched_tags(feed)
-    matched_tags = tag_rules.select do |tag_rule|      
+    tag_rules.select do |tag_rule|      
       feed.title.match(tag_rule.rule)
     end.map do |tag_rule|
       tag_rule.name
-    end
-
-    matched_tags.join(' ')
+    end.uniq.join(' ')
   end
 
   def tag_rules

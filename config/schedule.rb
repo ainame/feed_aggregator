@@ -22,3 +22,7 @@
 every 10.minutes do
   runner "Tasks::UpdateFeedsTask.new.insert_feed_and_update_tags"
 end
+
+every :day, :at => '04:00am'  do
+  runner "Tasks::UpdateFeedsTask.new.update_all_feeds_tags"
+end
