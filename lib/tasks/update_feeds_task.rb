@@ -30,15 +30,12 @@ class Tasks::UpdateFeedsTask
         {
           :site_id => site.id,
           :title => feed.title || '',
-          :body  => feed.content || raw_feed.description || '',
+          :body  => feed.content || raw_feeds.description || '',
           :url   => feed.url.to_s.empty? ? '' : feed.urls.first,
-          :posted_at => raw_feed.last_updated.to_s.empty? ? DateTime.now : raw_feed.last_updated.to_datetime
+          :posted_at => raw_feeds.last_updated.to_s.empty? ? DateTime.now : raw_feeds.last_updated.to_datetime
         }
       end
-    end.comapct
-  end
-
-  def make_feed_element(site, raw_feed)
+    end.compact
   end
 
   def insert_each_feeds(feeds)
@@ -68,7 +65,7 @@ class Tasks::UpdateFeedsTask
       feed.title.match(tag_rule.rule)
     end.map do |tag_rule|
       tag_rule.name
-    end.uniq.join(' ')
+    end.uniq.join(',')
   end
 
   def tag_rules
