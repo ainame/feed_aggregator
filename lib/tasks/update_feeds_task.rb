@@ -1,5 +1,6 @@
 require 'open-uri'
 require 'feed-normalizer'
+require 'nkf'
 
 class Tasks::UpdateFeedsTask
   def insert_feed_and_update_tags
@@ -29,8 +30,8 @@ class Tasks::UpdateFeedsTask
       else
         {
           :site_id => site.id,
-          :title => feed.title || '',
-          :body  => feed.content || raw_feeds.description || '',
+          :title => NKF.nkf('-w',feed.title) || '',
+          :body  => NKF.nkf('-w',feed.content)||  NKF.nkf('-w', raw_feeds.description) || '',
           :url   => feed.url.to_s.empty? ? '' : feed.urls.first,
           :posted_at => raw_feeds.last_updated.to_s.empty? ? DateTime.now : raw_feeds.last_updated.to_datetime
         }
