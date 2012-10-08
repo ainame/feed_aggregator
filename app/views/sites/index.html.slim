@@ -11,7 +11,7 @@ table class="table table-striped"
     - @sites.each do |site|
       tr
         td= link_to site.id, site_path(site)
-        td= link_to site.name, site.site_url
+        td= link_to site.name, site.site_url, :target => "_blank"
         td= site.description
 = link_to t('.new', :default => t("helpers.links.new")), new_site_path, :class => 'btn btn-primary'
 
