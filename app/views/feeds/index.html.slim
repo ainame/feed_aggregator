@@ -2,7 +2,7 @@
 h4 tag clound
 #wordcloud style="width:550px; height: 100px;"
 br
-- if @feeds
+- unless @feeds.empty?
   p last_updated: #{@feeds.first.formatted_posted_at}
 table class="table table-striped"
   tbody
