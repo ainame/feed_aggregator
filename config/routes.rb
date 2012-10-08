@@ -1,10 +1,10 @@
 FeedAggregator::Application.routes.draw do
-  resources :tag_rules
-
-  resources :sites
-
   root :to => 'feeds#index'
+  resources :sites
   resources :feeds
+  resources :tag_rules
+  match 'tag' => 'tag_rules#tag_search'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

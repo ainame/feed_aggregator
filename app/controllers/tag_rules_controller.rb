@@ -2,12 +2,21 @@ class TagRulesController < ApplicationController
   # GET /tag_rules
   # GET /tag_rules.json
   def index
-    @tag_rules = TagRule.all
+    @tag_rule_group = TagRule.all.group_by {|t| t.name }
 
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @tag_rules }
     end
+  end
+
+  # GET /tags?category=<category_name>
+  def tag_search
+    redirect_to :index unless params[:category]
+    @tag_rules = TagRule.where(:name => params[:category])
+    @tagged_feed = Feed.tagged_with(params[:category]).all
+    
+    render :tag_search
   end
 
   # GET /tag_rules/1

@@ -1,0 +1,9 @@
+- model_class = TagRule
+= params[:category]
+ul
+  - @tag_rules.each do |tag_rule|
+    li= tag_rule.rule
+p tagged feeds
+ul
+  - @tagged_feed.each do |feed|
+    li = link_to feed.title, feed.url

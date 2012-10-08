@@ -6,9 +6,9 @@ table class="table table-striped"
     tr
       th= model_class.human_attribute_name(:name)
   tbody
-    - @tag_rules.each do |tag_rule|
+    - @tag_rule_group.each do |group_name, tags|
       tr
-        td= link_to tag_rule.name, tag_rule_path(tag_rule)
+        td= link_to group_name + " （#{tags.map{|t|t.rule}.join(', ')}）", "/tag?category=#{group_name}"
 
 = link_to t('.new', :default => t("helpers.links.new")), new_tag_rule_path, :class => 'btn btn-primary'
 
