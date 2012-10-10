@@ -3,7 +3,7 @@ class FeedsController < ApplicationController
 
   # GET /
   def top_page
-    @feeds = Feed.latest.page params[:page]
+    @feeds = Feed.page params[:page]
     @tags  = Feed.tag_counts_on(:tags)
     @sites = Site.all
 
@@ -19,9 +19,9 @@ class FeedsController < ApplicationController
   def index
     @sites = Site.all
     if params[:site]
-      @feeds = Feed.latest.where(:site_id => params[:site]).page params[:page]      
+      @feeds = Feed.where(:site_id => params[:site]).page params[:page]      
     else
-      @feeds = Feed.latest.page params[:page]
+      @feeds = Feed.page params[:page]
     end
 
     respond_to do |format|
@@ -34,7 +34,7 @@ class FeedsController < ApplicationController
   # GET /site_feed?site=<site_id>
   def filter
     @site  = Site.find(params[:site])
-    @feeds = Feed.latest.where(site_id).page(params[:page])
+    @feeds = Feed.where(site_id).page(params[:page])
     @tags  = Feed.tag_counts_on(:tags)
     @sites = Site.all
 
